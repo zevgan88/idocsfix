@@ -46,9 +46,10 @@ class Google implements OCR, FaceDetection
             return null;
         }
         $face = $image->image;
-        $face->resizeCanvas($largestFace['centerX'] * 2, $largestFace['centerY'] * 2, 'top-left');
+		
+        $face->resizeCanvas($largestFace['centerX'] * 2, $largestFace['centerY'] * 2, 'ffffff', 'top-left');
         $face->rotate($largestFace['roll']);
-        $face->resizeCanvas($largestFace['width'], $largestFace['height'], 'center');
+        $face->resizeCanvas($largestFace['width'], $largestFace['height'], 'ffffff', 'center');
 
         return $face;
     }

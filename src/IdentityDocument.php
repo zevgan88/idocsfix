@@ -2,7 +2,9 @@
 
 namespace Werk365\IdentityDocuments;
 
-use Intervention\Image\Facades\Image as Img;
+
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Image;
 use Werk365\IdentityDocuments\Mrz\MrzParser;
 use Werk365\IdentityDocuments\Mrz\MrzSearcher;
@@ -61,7 +63,7 @@ class IdentityDocument
                     $constraint->aspectRatio();
                 })
                 ->encode()
-                ->encoded
+                
             ) :
             null;
         $viz = $id->getViz();
@@ -93,7 +95,8 @@ class IdentityDocument
 
     private function createImage($file): IdentityImage
     {
-        return new IdentityImage(Img::make($file), $this->ocrService, $this->faceDetectionService);
+		$manager = new ImageManager(new Driver());
+        return new IdentityImage($manager->read($file), $this->ocrService, $this->faceDetectionService);
     }
 
     public function setOcrService(string $service)
